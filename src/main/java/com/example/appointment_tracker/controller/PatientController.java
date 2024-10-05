@@ -5,6 +5,8 @@ import com.example.appointment_tracker.service.FileUploadService;
 import com.example.appointment_tracker.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -85,6 +87,13 @@ public class PatientController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file.");
         }
+    }
+
+    @GetMapping("/pages")
+    public Page<Patient> getPatients(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return patientService.getPatients(PageRequest.of(page, size));
     }
 
 }

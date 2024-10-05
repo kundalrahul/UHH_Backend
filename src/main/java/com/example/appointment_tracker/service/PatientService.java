@@ -9,6 +9,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -125,6 +127,10 @@ public class PatientService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Page<Patient> getPatients(PageRequest pageRequest) {
+        return patientRepository.findAll(pageRequest);
     }
 
 }
